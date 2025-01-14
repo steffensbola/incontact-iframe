@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <title>Demo - iframe Decagon with SF case ID</title>
+    <script type="text/javascript" src='https://home-c4.incontact.com/inContact/ChatClient/js/embed.min.js'></script>
+    <script type="text/javascript">
+        // this is used to remove the standard chat button
+        function showBadge(i) { var divBadge = document.getElementById("divBadge"); if (i > 0) { divBadge.innerHTML = i; divBadge.style.display = "block"; divBadge.classList.add('badge2'); } else if (i == 0 && divBadge) { divBadge.style.display = "none"; } };
+        // this is the business number  and poc in InContact
+        // you get this from ACD > Contact Settings > Points of Contact
+        const businessUnit = 4592828;
+        const pointOfContact = '4d059507-656f-4354-a936-3e9b77d90665';
+
+        function startChat() {
+            let caseId = document.getElementById('caseIdInput').value;
+            var config = {
+                serverHost: 'https://home-c4.incontact.com',
+                bus_no: businessUnit,
+                poc: pointOfContact,
+                params: [caseId]
+            };
+            console.log(config);
+
+            icPatronChat.init(
+                {
+                    serverHost: 'https://home-c4.incontact.com',
+                    bus_no: businessUnit,
+                    poc: pointOfContact,
+                    params: [caseId],
+                    customChatButton: true,
+                }, showBadge
+            );
+            setTimeout(() => {
+                icPatronChat.setStateWindowToggle();
+            }, 1000);
+            // icPatronChat.setStateWindowToggle();
+        }
+    </script>
+    <script type="text/javscript">
+        chrome.storage.session.setAccessLevel({ accessLevel: 'TRUSTED_AND_UNTRUSTED_CONTEXTS' });
+    </script>
+</head>
+
+<body>
+
+
+    <div class="header">
+        <h2>Chat</h2>
+        <p>Chat with an agent</p>
+        <p>This assumes the conversation with the bot has been escalated and you are starting a new conversation with
+            incontact.</p>
+        <div>
+            <label for="caseIdInput">Case ID:</label>
+            <input type="text" id="caseIdInput" value="500Ou00000CgZH0IAN">
+        </div>
+        <button onclick="startChat()">Start Chat</button>
+    </div>
+
+</body>
+
+</html>
